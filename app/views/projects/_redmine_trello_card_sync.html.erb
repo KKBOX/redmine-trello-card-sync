@@ -1,0 +1,19 @@
+<p>
+  <%= form.text_field :trello_board_id %>
+  Target Trello board ID. Leave empty to use <%= link_to 'default value', plugin_settings_path(:redmine_trello_card_sync) %>.
+</p>
+
+<p>
+  <%= form.check_box :trello_board_sync %>
+  Enable Redmine to Trello Board synchronizing?
+</p>
+
+<p>
+  <%= form.text_area :trello_mapping_redmine_statuses %>
+  Redmine statuses mapping, enter one status per line.
+</p>
+
+<p>
+  <%= form.text_area :trello_mapping_trello_lists %>
+  Trello lists mapping, enter one list per line.
+</p>

@@ -1,0 +1,8 @@
+# English strings go here for Rails i18n
+en:
+  field_trello_board: Trello board ID
+  field_trello_board_sync: Trello board sync
+  field_trello_username: Trello username
+  field_trello_mapping_redmine_statuses: Redmine statuses for mapping
+  field_trello_mapping_trello_lists: Trello lists for mapping
+
