@@ -2,7 +2,7 @@
 
 ## Setup
 
-1. Clone this plugin. (Better outside your Redmine installation path)
+1. Clone this plugin. (Better outside from your Redmine installation path in case of you may overwrite some files with the same names)
 1. Copy `./plugins/redmine_trello_card_sync` to `./plugins/` of your Redmine installation (e.g: `cp -Rp ./plugins/redmine_trello_card_sync MY_REDMINE_HOME/plugins/`)
 1. Change directory to your Redmine installation. (`cd MY_REDMINE_HOME`)
 1. Run `bundle install --without development test` to install essential gems.
