@@ -8,8 +8,8 @@
 1. Run `bundle install --without development test` to install essential gems.
 1. Run `bundle exec rake db:migrate_plugins RAILS_ENV=production` to setup plugin-related database tables. (In older version of Redmine, you may need to run `RAILS_ENV=production bundle exec rake redmine:plugins:migrate` instead)
 1. Go to `http(s)://MY_REDMINE_URL/settings/plugin/redmine_trello_card_sync`, enter the essential settings to enable this plugin.
-  1. Get your API key & member token from [here](https://trello.com/app-key), note they are different, one is the value of "Key", another is what will you get from the "Token" link.
-  1. Your board ID is such a 'board_random_id' value like `abXYzWtD` which you can found at your board's URL `https://trello.com/b/board_random_id/board_title`
+    1. Get your API key & member token from [here](https://trello.com/app-key), note they are different, one is the value of "Key", another is what will you get from the "Token" link.
+    1. Your board ID is such a 'board_random_id' value like `abXYzWtD` which you can found at your board's URL `https://trello.com/b/board_random_id/board_title`
 
 ## Configuration
 
