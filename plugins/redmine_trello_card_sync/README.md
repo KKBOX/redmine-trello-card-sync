@@ -14,7 +14,11 @@
 
 You can configure each project to toggle sync on or off, give its own Trello board ID and status-list mapping in projects' settings page.
 
+![Image of Trello card sync configuration example](/plugins/redmine_trello_card_sync/assets/images/trello_card_sync_configuration.png)
+
 Your board ID is such a 'board_random_id' value like `abXYzWtB` which you can get it at your board's URL like `https://trello.com/b/`*board_random_id*`/board_title`
+
+![Image of Trello board ID example](/plugins/redmine_trello_card_sync/assets/images/trello_board_id.png)
 
 When configure status-list mapping, enter an one-by-one pair between two textareas, like:
   * Redmine statuses for mapping:
