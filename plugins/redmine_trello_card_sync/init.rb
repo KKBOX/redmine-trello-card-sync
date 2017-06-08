@@ -4,10 +4,10 @@ Redmine::Plugin.register :redmine_trello_card_sync do
   name 'Trello card sync plugin'
   author 'Hiroshi Yui'
   description 'Sync Redmine ticket to Trello card'
-  version '0.0.5'
+  version '0.0.6'
   url 'https://github.com/hiroshiyui/redmine_trello_card_sync'
   author_url 'https://ghostsinthelab.org/'
-  requires_redmine :version_or_higher => '2.3.2'
+  requires_redmine version_or_higher: '2.3.2'
 
   Rails.configuration.to_prepare do
     require_dependency 'redmine_trello_card_sync/hooks'
@@ -17,5 +17,5 @@ Redmine::Plugin.register :redmine_trello_card_sync do
     User.send(:include, TrelloCardSync::Patches::UserPatch)
   end
 
-  settings :default => {:public_key => '', :member_token => '', :board_id => '', :redmine_statuses => '', :trello_lists => ''}, :partial => 'settings/trello_sync_settings'
+  settings default: { public_key: '', member_token: '' }, partial: 'settings/trello_sync_settings'
 end
