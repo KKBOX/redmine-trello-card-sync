@@ -3,24 +3,28 @@ require 'trello'
 # TrelloCardSyncHook - Sync an issue to a Trello card
 class TrelloCardSyncHook < Redmine::Hook::Listener
   def initialize
-    @@plugin_ready = false
+    @plugin_ready = false
+
+    Trello.configure do |config|
+      config.developer_public_key = Setting.plugin_redmine_trello_card_sync[:public_key].strip
+      config.member_token = Setting.plugin_redmine_trello_card_sync[:member_token].strip
+    end
+
     begin
-      Trello.configure do |config|
-        config.developer_public_key = Setting.plugin_redmine_trello_card_sync[:public_key]
-        config.member_token = Setting.plugin_redmine_trello_card_sync[:member_token]
-      end
-      @@plugin_ready = true
+      # Just a 'ping' purpose API call, for ensure that we've configured Trello client well.
+      boards = Trello::Board.all
+      @plugin_ready = true
     rescue StandardError => e
       Rails.logger.error(e.to_s)
     end
 
-    Rails.logger.info("[Trello] Is TrelloCardSync plugin ready? #{@@plugin_ready}")
+    Rails.logger.info("[Trello] Is TrelloCardSync plugin ready? #{@plugin_ready}")
   end
 
   def controller_issues_new_after_save(context = {})
     issue = context[:issue]
     begin
-      status_syncing(issue) if @@plugin_ready
+      status_syncing(issue) if @plugin_ready
     rescue StandardError => e
       Rails.logger.error(e.to_s)
     end
@@ -29,7 +33,7 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
   def controller_issues_edit_after_save(context = {})
     issue = context[:issue]
     begin
-      status_syncing(issue) if @@plugin_ready
+      status_syncing(issue) if @plugin_ready
     rescue StandardError => e
       Rails.logger.error(e.to_s)
     end

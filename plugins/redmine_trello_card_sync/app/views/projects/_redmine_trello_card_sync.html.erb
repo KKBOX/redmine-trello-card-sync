@@ -1,6 +1,6 @@
 <p>
-  <%= form.text_field :trello_board_id %>
-  Target Trello board ID.
+  <%= form.collection_select(:trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
+  Target Trello board.
 </p>
 
 <p>
@@ -9,11 +9,11 @@
 </p>
 
 <p>
-  <%= form.text_area :trello_mapping_redmine_statuses %>
+  <%= form.text_area :trello_mapping_redmine_statuses %><br />
   Redmine statuses mapping, enter one status per line.
 </p>
 
 <p>
-  <%= form.text_area :trello_mapping_trello_lists %>
+  <%= form.text_area :trello_mapping_trello_lists %><br />
   Trello lists mapping, enter one list per line.
 </p>

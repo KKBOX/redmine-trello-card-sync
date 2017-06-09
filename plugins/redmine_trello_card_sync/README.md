@@ -32,3 +32,5 @@ When configure status-list mapping, enter an one-by-one pair between two textare
     * In progress
     * Done
     * `//close` **(this is a magic word in order to notify this plugin to close the Trello card)**
+
+You can enter your Trello username at `http(s)://YOUR_REDMINE_HOST/my/account`.
