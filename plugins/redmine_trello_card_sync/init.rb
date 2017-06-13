@@ -12,7 +12,7 @@ Redmine::Plugin.register :redmine_trello_card_sync do
   Rails.configuration.to_prepare do
     require_dependency 'redmine_trello_card_sync/hooks'
     require_dependency 'redmine_trello_card_sync/view_hooks'
-    require_dependency 'redmine_trello_card_sync/project_patch'
+    require_dependency 'redmine_trello_card_sync/patches'
     Project.send(:include, TrelloCardSync::Patches::ProjectPatch)
     User.send(:include, TrelloCardSync::Patches::UserPatch)
   end
