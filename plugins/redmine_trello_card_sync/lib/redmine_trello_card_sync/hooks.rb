@@ -107,7 +107,7 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
     end
 
     # sync description
-    issue_url = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+    issue_url = "#{request.protocol}#{request.host_with_port}/issues/#{issue.id}"
     card.desc = "#{issue.description}\n\n**🔗 Redmine Issue:** #{issue_url}".strip
     card.update!
 
