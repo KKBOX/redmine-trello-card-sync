@@ -22,18 +22,16 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
   end
 
   def controller_issues_new_after_save(context = {})
-    issue = context[:issue]
     begin
-      status_syncing(issue) if @plugin_ready
+      status_syncing(context) if @plugin_ready
     rescue StandardError => e
       Rails.logger.error(e.to_s)
     end
   end
 
   def controller_issues_edit_after_save(context = {})
-    issue = context[:issue]
     begin
-      status_syncing(issue) if @plugin_ready
+      status_syncing(context) if @plugin_ready
     rescue StandardError => e
       Rails.logger.error(e.to_s)
     end
@@ -41,7 +39,9 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
 
   private
 
-  def status_syncing(issue)
+  def status_syncing(context)
+    request = context[:request]
+    issue = context[:issue]
     project = issue.project
 
     unless project.trello_board_sync
@@ -94,30 +94,42 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
       end
     end
 
-    # Sync ticket assignee & card member
+    # Sync ticket assignee, card member, due date & descritpion
     if card.nil?
       Rails.logger.info('[Trello] No such card. Skip.')
       return true
     end
 
+    # sync due date
+    unless issue.due_date.nil?
+      card.due = issue.due_date.to_time
+      card.update!
+    end
+
+    # sync description
+    issue_url = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
+    card.desc = "#{issue.description}\n\n**🔗 Redmine Issue:** #{issue_url}".strip
+    card.update!
+
+    # sync assignee
     if issue.assigned_to.nil?
       Rails.logger.info("[Trello] The Redmine issue doesn't have assignee. Skip.")
       return true
+    else
+      if issue.assigned_to.trello_username.blank?
+        Rails.logger.info("[Trello] User doesn't have Trello username. Skip.")
+        return true
+      end
+
+      trello_member = board.members.find { |b| b.username == issue.assigned_to.trello_username.strip }
+
+      if trello_member.nil?
+        Rails.logger.info('[Trello] Wrong Trello username. Skip.')
+        return true
+      end
+
+      card.add_member(trello_member) unless card.members.include? trello_member
     end
-
-    if issue.assigned_to.trello_username.blank?
-      Rails.logger.info("[Trello] User doesn't have Trello username. Skip.")
-      return true
-    end
-
-    trello_member = board.members.find { |b| b.username == issue.assigned_to.trello_username.strip }
-
-    if trello_member.nil?
-      Rails.logger.info('[Trello] Wrong Trello username. Skip.')
-      return true
-    end
-
-    card.add_member(trello_member) unless card.members.include? trello_member
   end
 
   def status_mapping(board, redmine_statuses, trello_lists)
