@@ -40,7 +40,7 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
   private
 
   def status_syncing(context)
-    request = context[:request]
+    request = context[:request] unless context[:request].nil?
     issue = context[:issue]
     project = issue.project
 
@@ -107,8 +107,12 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
     end
 
     # sync description
-    issue_url = "#{request.protocol}#{request.host_with_port}/issues/#{issue.id}"
-    card.desc = "#{issue.description}\n\n**🔗 Redmine Issue:** #{issue_url}".strip
+    if request
+      issue_url = "#{request.protocol}#{request.host_with_port}/issues/#{issue.id}"
+      card.desc = "#{issue.description}\n\n**🔗 Redmine Issue:** #{issue_url}".strip
+    else
+      card.desc = "#{issue.description}".strip
+    end
     card.update!
 
     # sync assignee
