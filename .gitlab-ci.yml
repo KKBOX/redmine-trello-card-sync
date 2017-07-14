@@ -1,0 +1,4 @@
+stages:
+  - ci_test
+  - qa
+  - code_review
