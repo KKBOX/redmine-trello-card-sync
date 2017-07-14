@@ -2,3 +2,8 @@ stages:
   - ci_test
   - qa
   - code_review
+
+test_job1:
+  stage: ci_test
+  script:
+    - "uname -a"
