@@ -6,4 +6,6 @@ stages:
 test_job1:
   stage: ci_test
   script:
-    - "uname -a"
+    - "true"
+  allow_failure: true
+  when: manual
