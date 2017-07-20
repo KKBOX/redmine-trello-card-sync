@@ -1,4 +1,3 @@
 test:
   msg: 'Hello?'
   context: 'gitlab'
-  enable: true
