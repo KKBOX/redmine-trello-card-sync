@@ -6,8 +6,8 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
     @plugin_ready = false
 
     Trello.configure do |config|
-      config.developer_public_key = Setting.plugin_redmine_trello_card_sync['public_key'].strip
-      config.member_token = Setting.plugin_redmine_trello_card_sync['member_token'].strip
+      config.developer_public_key = Setting.plugin_redmine_trello_card_sync['public_key'].present? ? Setting.plugin_redmine_trello_card_sync['public_key'].strip : ''
+      config.member_token = Setting.plugin_redmine_trello_card_sync['member_token'].present? ? Setting.plugin_redmine_trello_card_sync['member_token'].strip : ''
     end
 
     begin
