@@ -3,7 +3,7 @@
 ## Setup
 
 1. cd `${YOUR_REDMINE_HOME}/plugins`
-1. `git clone https://github.com/KKBOX/redmine-trello-card-sync.git redmine-trello-card-sync`
+1. `git clone https://github.com/KKBOX/redmine-trello-card-sync.git redmine_trello_card_sync`
 1. Change directory back to your Redmine installation. (`cd ${YOUR_REDMINE_HOME}`)
 1. Run `bundle install --without development test` to install essential gems.
 1. Run `bundle exec rake db:migrate_plugins RAILS_ENV=production` to setup plugin-related database tables. (In older version of Redmine, you may need to run `RAILS_ENV=production bundle exec rake redmine:plugins:migrate` instead)
