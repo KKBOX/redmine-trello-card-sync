@@ -5,5 +5,5 @@ en:
   field_trello_username: Trello username
   field_trello_mapping_redmine_statuses: Redmine statuses for mapping
   field_trello_mapping_trello_lists: Trello lists for mapping
-  field_trello_excluded_trackers: Excluded tracker(s)
+  field_trello_excluded_trackers: Excluded tracker(s) from sync
 
