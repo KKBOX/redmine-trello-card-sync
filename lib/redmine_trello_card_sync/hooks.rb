@@ -44,6 +44,12 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
     issue = context[:issue]
     project = issue.project
 
+    trello_excluded_trackers = JSON.parse(project.trello_excluded_trackers).reject { |id| id.empty? }.map { |id| id.to_i }
+    if trello_excluded_trackers.include?(issue.tracker_id)
+      Rails.logger.info("[Trello] The tracker of this issue doesn't enable sync. Skip.")
+      return true
+    end
+
     unless project.trello_board_sync
       Rails.logger.info("[Trello] This project doesn't enable sync. Skip.")
       return true

@@ -5,7 +5,7 @@
 
 <p>
   <%= form.check_box :trello_board_sync %>
-  Enable Redmine to Trello Board synchronizing?
+  Enable Redmine to Trello Board synchronization?
 </p>
 
 <p>
@@ -16,4 +16,11 @@
 <p>
   <%= form.text_area :trello_mapping_trello_lists %><br />
   Trello lists mapping, enter one list per line.
+</p>
+
+<p>
+  <%= form.collection_select(:trello_excluded_trackers, @project.trackers, :id, :name,
+  {selected: JSON.parse(@project.trello_excluded_trackers)},
+  {multiple: true}) %><br />
+  Select excluded tracker(s) from synchronization.
 </p>
