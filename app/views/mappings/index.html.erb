@@ -1,0 +1,30 @@
+<h2><%= l(:trello_card_sync_index_title) %></h2>
+
+<%= form_tag do %>
+<p>
+  <%= collection_select(:project, :trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
+  Target Trello board.
+</p>
+
+<p>
+  <%= check_box(:project, :trello_board_sync) %>
+  Enable Redmine to Trello Board synchronization?
+</p>
+
+<p>
+  <%= text_area(:project, :trello_mapping_redmine_statuses) %><br />
+  Redmine statuses mapping, enter one status per line.
+</p>
+
+<p>
+  <%= text_area(:project, :trello_mapping_trello_lists) %><br />
+  Trello lists mapping, enter one list per line.
+</p>
+
+<p>
+  <%= collection_select(:project, :trello_excluded_trackers, @project.trackers, :id, :name,
+  {selected: JSON.parse(@project.trello_excluded_trackers)},
+  {multiple: true}) %><br />
+  Select excluded tracker(s) from synchronization.
+</p>
+<% end %>
