@@ -12,7 +12,7 @@
 <% IssueStatus.order(:id).each do |issue_status| %>
   <li>
     <div class="issue_status_name"><%= issue_status.name %> ⇄ </div>
-    <div class="trello_list"><%= collection_select(:mapping, :id, Trello::Board.find(@project.trello_board_id).lists, :id, :name, prompt: true) %></div>
+    <div class="trello_list"><%= collection_select(:mapping, :id, @trello_board_lists, :id, :name, prompt: true) %></div>
   </li>
 <% end%>
 </ul>

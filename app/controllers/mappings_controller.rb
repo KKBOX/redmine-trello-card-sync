@@ -7,6 +7,7 @@ class MappingsController < ApplicationController
   before_filter :setup_trello_api
 
   def index
+    @trello_board_lists = Trello::Board.find(@project.trello_board_id).lists
   end
 
   def show
