@@ -7,5 +7,8 @@ en:
   field_trello_mapping_trello_lists: Trello lists for mapping
   field_trello_excluded_trackers: Excluded tracker(s) from sync
   trello_card_sync_title: Trello ⇄
-  trello_card_sync_index_title: Trello ⇄ Redmine mapping configurations
-
+  trello_card_sync_index_title: Trello ⇄ Redmine sync configurations
+  trello_card_sync_index_board_id_header: Sync to the Trello board
+  trello_card_sync_index_mapping_header: Mappings
+  trello_card_sync_index_excluded_trackers_header: Don't sync these trackers
+  trello_card_sync_index_excluded_trackers_description: Select excluded tracker(s) from synchronization.

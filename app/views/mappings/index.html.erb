@@ -1,16 +1,23 @@
 <h2><%= l(:trello_card_sync_index_title) %></h2>
 
 <%= form_tag do %>
+<h3><%= l(:trello_card_sync_index_board_id_header) %></h3>
 <p>
   <%= collection_select(:project, :trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
   Target Trello board.
 </p>
 
-<p>
-  <%= check_box(:project, :trello_board_sync) %>
-  Enable Redmine to Trello Board synchronization?
-</p>
+<h3><%= l(:trello_card_sync_index_mapping_header) %></h3>
+<ul class="trello_card_sync_mappings">
+<% IssueStatus.order(:id).each do |issue_status| %>
+  <li>
+    <div class="issue_status_name"><%= issue_status.name %> ⇄ </div>
+    <div class="trello_list"><%= collection_select(:mapping, :id, Trello::Board.find(@project.trello_board_id).lists, :id, :name, prompt: true) %></div>
+  </li>
+<% end%>
+</ul>
 
+<!--
 <p>
   <%= text_area(:project, :trello_mapping_redmine_statuses) %><br />
   Redmine statuses mapping, enter one status per line.
@@ -20,11 +27,15 @@
   <%= text_area(:project, :trello_mapping_trello_lists) %><br />
   Trello lists mapping, enter one list per line.
 </p>
-
+-->
+<h3><%= l(:trello_card_sync_index_excluded_trackers_header) %></h3>
+<%= l(:trello_card_sync_index_excluded_trackers_description) %><br />
+<%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name) %>
+<!--
 <p>
   <%= collection_select(:project, :trello_excluded_trackers, @project.trackers, :id, :name,
   {selected: JSON.parse(@project.trello_excluded_trackers)},
   {multiple: true}) %><br />
-  Select excluded tracker(s) from synchronization.
 </p>
+-->
 <% end %>

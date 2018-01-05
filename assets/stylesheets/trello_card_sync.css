@@ -1,0 +1,11 @@
+ul.trello_card_sync_mappings {
+  display: table;
+}
+
+ul.trello_card_sync_mappings li div.issue_status_name, ul.trello_card_sync_mappings li div.trello_list {
+  display: table-cell;
+}
+
+ul.trello_card_sync_mappings li div.issue_status_name {
+  padding-right: 0.6em;
+}
