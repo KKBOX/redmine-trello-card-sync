@@ -31,7 +31,7 @@
 -->
 <h3><%= l(:trello_card_sync_index_excluded_trackers_header) %></h3>
 <%= l(:trello_card_sync_index_excluded_trackers_description) %><br />
-<%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name) %>
+<%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name, checked: @excluded_trackers) %>
 <!--
 <p>
   <%= collection_select(:project, :trello_excluded_trackers, @project.trackers, :id, :name,

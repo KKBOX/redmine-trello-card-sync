@@ -11,6 +11,7 @@ class MappingsController < ApplicationController
     @extra_close_option = [l(:trello_card_sync_close_option), '//close']
     @board_lists = Trello::Board.find(@project.trello_board_id).lists.map { |list| [list.name, list.id] }
     @board_lists << @extra_close_option
+    @excluded_trackers = excluded_trackers
   end
 
   def show
@@ -23,6 +24,10 @@ class MappingsController < ApplicationController
   end
 
   private
+
+  def excluded_trackers
+    JSON.parse(@project.trello_excluded_trackers).reject { |tracker| tracker.empty? }.map { |tracker| tracker.to_i }
+  end
 
   def setup_trello_api
     Trello.configure do |config|
