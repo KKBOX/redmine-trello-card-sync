@@ -2,10 +2,11 @@ ul.trello_card_sync_mappings {
   display: table;
 }
 
-ul.trello_card_sync_mappings li div.issue_status_name, ul.trello_card_sync_mappings li div.trello_list {
+ul.trello_card_sync_mappings li div.issue_status_name, ul.trello_card_sync_mappings li div.sync_sign, ul.trello_card_sync_mappings li div.trello_list {
   display: table-cell;
 }
 
-ul.trello_card_sync_mappings li div.issue_status_name {
+ul.trello_card_sync_mappings li div.sync_sign {
+  padding-left: 0.6em;
   padding-right: 0.6em;
 }

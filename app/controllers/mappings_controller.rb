@@ -7,7 +7,10 @@ class MappingsController < ApplicationController
   before_filter :setup_trello_api
 
   def index
-    @trello_board_lists = Trello::Board.find(@project.trello_board_id).lists
+    # "//close" => Our special magic option to close (archive) the card
+    @extra_close_option = [l(:trello_card_sync_close_option), '//close']
+    @board_lists = Trello::Board.find(@project.trello_board_id).lists.map { |list| [list.name, list.id] }
+    @board_lists << @extra_close_option
   end
 
   def show

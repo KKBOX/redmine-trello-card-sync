@@ -11,8 +11,9 @@
 <ul class="trello_card_sync_mappings">
 <% IssueStatus.order(:id).each do |issue_status| %>
   <li>
-    <div class="issue_status_name"><%= issue_status.name %> ⇄ </div>
-    <div class="trello_list"><%= collection_select(:mapping, :id, @trello_board_lists, :id, :name, prompt: true) %></div>
+    <div class="issue_status_name"><%= issue_status.name %></div>
+    <div class="sync_sign">⇄</div>
+    <div class="trello_list"><%= select(:mapping, :id, @board_lists, { include_blank: true }) %></div>
   </li>
 <% end%>
 </ul>

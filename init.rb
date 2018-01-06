@@ -19,9 +19,6 @@ Redmine::Plugin.register :redmine_trello_card_sync do
   author_url 'https://ghostsinthelab.org/'
   requires_redmine version_or_higher: '2.3.2'
 
-  # Rails.configuration.to_prepare do
-  # end
-
   settings default: { public_key: '', member_token: '' }, partial: 'settings/trello_sync_settings'
 
   project_module :trello_card_sync do

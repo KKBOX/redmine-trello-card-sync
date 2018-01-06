@@ -12,3 +12,4 @@ en:
   trello_card_sync_index_mapping_header: Mappings
   trello_card_sync_index_excluded_trackers_header: Don't sync these trackers
   trello_card_sync_index_excluded_trackers_description: Select excluded tracker(s) from synchronization.
+  trello_card_sync_close_option: Close (archive) the Trello card
