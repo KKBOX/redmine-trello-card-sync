@@ -13,20 +13,8 @@
 
 ## Configuration
 
-You can configure each project to toggle sync on or off, give its own Trello board ID and status-list mapping in projects' settings page.
+Enable this plugin module in each project's settings -> modules page, such as `http(s)://${YOUR_REDMINE_HOST}/projects/${YOUR_PROJECT}/settings/modules`.
 
-![Image of Trello card sync configuration example](/plugins/redmine_trello_card_sync/assets/images/trello_card_sync_configuration.png)
-
-When configure status-list mapping, enter an one-by-one pair between two textareas, like:
-  * Redmine statuses for mapping:
-    * New
-    * InProgress
-    * Resolved
-    * Closed
-  * Trello lists for mapping:
-    * Task backlogs
-    * In progress
-    * Done
-    * `//close` **(this is a magic word in order to notify this plugin to close the Trello card)**
+Once you enable the module, you can configure mappings at `http(s)://${YOUR_REDMINE_HOST}/projects/${YOUR_PROJECT}/trello_card_sync/mappings`.
 
 You can enter your Trello username at `http(s)://${YOUR_REDMINE_HOST}/my/account`.
