@@ -22,12 +22,16 @@ class MappingsController < ApplicationController
   end
 
   def save
-    @project.trello_board_id = params[:project][:trello_board_id]
-    @project.trello_excluded_trackers = params[:project][:trello_excluded_trackers].to_s
-    @project.trello_excluded_trackers_v2 = Marshal.dump(params[:project][:trello_excluded_trackers])
-    @project.trello_list_mapping = Marshal.dump(params[:trello_list_mapping])
-    @project.save!
-    redirect_to mappings_url
+    begin
+      @project.trello_board_id = params[:project][:trello_board_id]
+      @project.trello_excluded_trackers = params[:project][:trello_excluded_trackers].to_s
+      @project.trello_excluded_trackers_v2 = Marshal.dump(params[:project][:trello_excluded_trackers])
+      @project.trello_list_mapping = Marshal.dump(params[:trello_list_mapping])
+      @project.save!
+      redirect_to mappings_url, notice: l(:trello_card_sync_settings_saved)
+    rescue StandardError => e
+      redirect_to mappings_url, alert: e.to_s
+    end
   end
 
   private
@@ -45,7 +49,11 @@ class MappingsController < ApplicationController
   end
 
   def list_mapping
-    Hash[Marshal.load(@project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
+    list_mapping = {}
+    if @project.trello_list_mapping.present?
+      list_mapping = Hash[Marshal.load(@project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
+    end
+    list_mapping
   end
 
   def setup_trello_api

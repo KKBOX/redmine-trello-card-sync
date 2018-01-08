@@ -16,3 +16,4 @@ en:
   trello_card_sync_no_board_specified_warning: This project haven't specify a Trello board.
   trello_card_sync_index_board_id_description: Target Trello board.
   trello_card_sync_index_mappings_description: Set your Trello list mapping for each Redmine status, leave blank to disable the status to sync with Trello.
+  trello_card_sync_settings_saved: Settings are saved.
