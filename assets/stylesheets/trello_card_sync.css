@@ -14,3 +14,11 @@ article#trello_card_sync_index ul.trello_card_sync_mappings li span.sync_sign {
 article#trello_card_sync_index div.submit {
   margin-top: 1.5em;
 }
+
+article#trello_card_sync_index h3 {
+  margin-top: 1.5em;
+}
+
+article#trello_card_sync_index span.description {
+  color: #999;
+}

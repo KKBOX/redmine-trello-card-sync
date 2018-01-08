@@ -11,7 +11,8 @@ en:
   trello_card_sync_index_board_id_header: Sync to the Trello board
   trello_card_sync_index_mapping_header: Mappings
   trello_card_sync_index_excluded_trackers_header: Don't sync these trackers
-  trello_card_sync_index_excluded_trackers_description: Select excluded tracker(s) from synchronization.
+  trello_card_sync_index_excluded_trackers_description: Select excluded tracker(s) from sync.
   trello_card_sync_close_option: Close (archive) the Trello card
   trello_card_sync_no_board_specified_warning: This project haven't specify a Trello board.
   trello_card_sync_index_board_id_description: Target Trello board.
+  trello_card_sync_index_mappings_description: Set your Trello list mapping for each Redmine status, leave blank to disable the status to sync with Trello.

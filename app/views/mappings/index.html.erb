@@ -4,14 +4,15 @@
 <%= form_tag(save_mappings_path, method: :patch) do %>
 <section>
   <h3><%= l(:trello_card_sync_index_board_id_header) %></h3>
+  <span class="description"><%= l(:trello_card_sync_index_board_id_description) %></span>
   <p>
     <%= collection_select(:project, :trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
-    <%= l(:trello_card_sync_index_board_id_description) %>
   </p>
 </section>
 
 <section>
   <h3><%= l(:trello_card_sync_index_mapping_header) %></h3>
+  <span class="description"><%= l(:trello_card_sync_index_mappings_description) %></span>
   <ul class="trello_card_sync_mappings">
   <% IssueStatus.order(:id).each do |issue_status| %>
     <li>
@@ -25,7 +26,7 @@
 
 <section>
   <h3><%= l(:trello_card_sync_index_excluded_trackers_header) %></h3>
-  <%= l(:trello_card_sync_index_excluded_trackers_description) %><br />
+  <span class="description"><%= l(:trello_card_sync_index_excluded_trackers_description) %></span><br />
   <%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name, checked: @excluded_trackers_v2) %>
 </section>
 
