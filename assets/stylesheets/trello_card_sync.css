@@ -1,5 +1,10 @@
 article#trello_card_sync_index ul.trello_card_sync_mappings {
   display: table;
+  padding-left: 0;
+}
+
+article#trello_card_sync_index ul.trello_card_sync_mappings li {
+  display: table-row;
 }
 
 article#trello_card_sync_index ul.trello_card_sync_mappings li span.issue_status_name, ul.trello_card_sync_mappings li span.sync_sign, ul.trello_card_sync_mappings li span.trello_list {
