@@ -1,12 +1,16 @@
-ul.trello_card_sync_mappings {
+article#trello_card_sync_index ul.trello_card_sync_mappings {
   display: table;
 }
 
-ul.trello_card_sync_mappings li div.issue_status_name, ul.trello_card_sync_mappings li div.sync_sign, ul.trello_card_sync_mappings li div.trello_list {
+article#trello_card_sync_index ul.trello_card_sync_mappings li span.issue_status_name, ul.trello_card_sync_mappings li span.sync_sign, ul.trello_card_sync_mappings li span.trello_list {
   display: table-cell;
 }
 
-ul.trello_card_sync_mappings li div.sync_sign {
+article#trello_card_sync_index ul.trello_card_sync_mappings li span.sync_sign {
   padding-left: 0.6em;
   padding-right: 0.6em;
+}
+
+article#trello_card_sync_index div.submit {
+  margin-top: 1.5em;
 }

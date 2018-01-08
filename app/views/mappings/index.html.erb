@@ -1,22 +1,27 @@
+<article id="trello_card_sync_index">
 <h2><%= l(:trello_card_sync_index_title) %></h2>
 
-<%= form_tag do %>
+<%= form_tag(save_mappings_path, method: :patch) do %>
+<section>
 <h3><%= l(:trello_card_sync_index_board_id_header) %></h3>
 <p>
   <%= collection_select(:project, :trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
   Target Trello board.
 </p>
+</section>
 
+<section>
 <h3><%= l(:trello_card_sync_index_mapping_header) %></h3>
 <ul class="trello_card_sync_mappings">
 <% IssueStatus.order(:id).each do |issue_status| %>
   <li>
-    <div class="issue_status_name"><%= issue_status.name %></div>
-    <div class="sync_sign">⇄</div>
-    <div class="trello_list"><%= select(:mapping, :id, @board_lists, { include_blank: true }) %></div>
+    <span class="issue_status_name"><%= issue_status.name %></span>
+    <span class="sync_sign">⇄</span>
+    <span class="trello_list"><%= select(:trello_list_mapping, issue_status.id, @board_lists, { include_blank: true }) %></span>
   </li>
 <% end%>
 </ul>
+</section>
 
 <!--
 <p>
@@ -29,9 +34,10 @@
   Trello lists mapping, enter one list per line.
 </p>
 -->
+<section>
 <h3><%= l(:trello_card_sync_index_excluded_trackers_header) %></h3>
 <%= l(:trello_card_sync_index_excluded_trackers_description) %><br />
-<%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name, checked: @excluded_trackers) %>
+<%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name, checked: @excluded_trackers_v2) %>
 <!--
 <p>
   <%= collection_select(:project, :trello_excluded_trackers, @project.trackers, :id, :name,
@@ -39,4 +45,11 @@
   {multiple: true}) %><br />
 </p>
 -->
+</section>
+
+<section>
+<div class="submit"><%= submit_tag %></div>
+</section>
+
 <% end %>
+</article>

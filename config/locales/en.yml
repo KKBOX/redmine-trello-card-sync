@@ -13,3 +13,4 @@ en:
   trello_card_sync_index_excluded_trackers_header: Don't sync these trackers
   trello_card_sync_index_excluded_trackers_description: Select excluded tracker(s) from synchronization.
   trello_card_sync_close_option: Close (archive) the Trello card
+  trello_card_sync_no_board_specified_warning: This project haven't specify a Trello board.

@@ -22,8 +22,8 @@ Redmine::Plugin.register :redmine_trello_card_sync do
   settings default: { public_key: '', member_token: '' }, partial: 'settings/trello_sync_settings'
 
   project_module :trello_card_sync do
-    permission :view_mappings,       mappings: [:index, :show]
-    permission :edit_mappings,       mappings: [:index, :show, :edit, :update]
+    permission :view_mappings,       mappings: [:index]
+    permission :edit_mappings,       mappings: [:index, :save]
   end
 
   menu :project_menu, :mappings, { controller: 'mappings', action: 'index' }, caption: :trello_card_sync_title, before: :settings, param: :project_id
