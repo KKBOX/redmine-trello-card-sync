@@ -15,7 +15,7 @@ Redmine::Plugin.register :redmine_trello_card_sync do
   author 'Hiroshi Yui'
   description 'Sync Redmine ticket to Trello card'
   version '1.0.0'
-  url 'https://github.com/hiroshiyui/redmine_trello_card_sync'
+  url 'https://github.com/KKBOX/redmine-trello-card-sync/'
   author_url 'https://ghostsinthelab.org/'
   requires_redmine version_or_higher: '2.3.2'
 
