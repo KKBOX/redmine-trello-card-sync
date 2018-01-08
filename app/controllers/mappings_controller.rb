@@ -14,7 +14,7 @@ class MappingsController < ApplicationController
       @board_lists = Trello::Board.find(@project.trello_board_id).lists.map { |list| [list.name, list.id] }
       @board_lists << @extra_close_option
     else
-      flash[:warning] = l(:trello_card_sync_no_board_specified_warning)
+      flash[:warning] = t(:trello_card_sync_no_board_specified_warning, project: @project.name)
     end
     @excluded_trackers = excluded_trackers
     @excluded_trackers_v2 = excluded_trackers_v2
