@@ -3,52 +3,34 @@
 
 <%= form_tag(save_mappings_path, method: :patch) do %>
 <section>
-<h3><%= l(:trello_card_sync_index_board_id_header) %></h3>
-<p>
-  <%= collection_select(:project, :trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
-  Target Trello board.
-</p>
+  <h3><%= l(:trello_card_sync_index_board_id_header) %></h3>
+  <p>
+    <%= collection_select(:project, :trello_board_id, Trello::Board.all, :id, :name, prompt: true) %>
+    <%= l(:trello_card_sync_index_board_id_description) %>
+  </p>
 </section>
 
 <section>
-<h3><%= l(:trello_card_sync_index_mapping_header) %></h3>
-<ul class="trello_card_sync_mappings">
-<% IssueStatus.order(:id).each do |issue_status| %>
-  <li>
-    <span class="issue_status_name"><%= issue_status.name %></span>
-    <span class="sync_sign">⇄</span>
-    <span class="trello_list"><%= select(:trello_list_mapping, issue_status.id, @board_lists, { include_blank: true }) %></span>
-  </li>
-<% end%>
-</ul>
-</section>
-
-<!--
-<p>
-  <%= text_area(:project, :trello_mapping_redmine_statuses) %><br />
-  Redmine statuses mapping, enter one status per line.
-</p>
-
-<p>
-  <%= text_area(:project, :trello_mapping_trello_lists) %><br />
-  Trello lists mapping, enter one list per line.
-</p>
--->
-<section>
-<h3><%= l(:trello_card_sync_index_excluded_trackers_header) %></h3>
-<%= l(:trello_card_sync_index_excluded_trackers_description) %><br />
-<%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name, checked: @excluded_trackers_v2) %>
-<!--
-<p>
-  <%= collection_select(:project, :trello_excluded_trackers, @project.trackers, :id, :name,
-  {selected: JSON.parse(@project.trello_excluded_trackers)},
-  {multiple: true}) %><br />
-</p>
--->
+  <h3><%= l(:trello_card_sync_index_mapping_header) %></h3>
+  <ul class="trello_card_sync_mappings">
+  <% IssueStatus.order(:id).each do |issue_status| %>
+    <li>
+      <span class="issue_status_name"><%= issue_status.name %></span>
+      <span class="sync_sign">⇄</span>
+      <span class="trello_list"><%= select(:trello_list_mapping, issue_status.id, @board_lists, { include_blank: true, selected: @list_mapping[issue_status.id] }) %></span>
+    </li>
+  <% end%>
+  </ul>
 </section>
 
 <section>
-<div class="submit"><%= submit_tag %></div>
+  <h3><%= l(:trello_card_sync_index_excluded_trackers_header) %></h3>
+  <%= l(:trello_card_sync_index_excluded_trackers_description) %><br />
+  <%= collection_check_boxes(:project, :trello_excluded_trackers, @project.trackers, :id, :name, checked: @excluded_trackers_v2) %>
+</section>
+
+<section>
+  <div class="submit"><%= submit_tag %></div>
 </section>
 
 <% end %>

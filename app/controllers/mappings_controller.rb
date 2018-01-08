@@ -18,6 +18,7 @@ class MappingsController < ApplicationController
     end
     @excluded_trackers = excluded_trackers
     @excluded_trackers_v2 = excluded_trackers_v2
+    @list_mapping = list_mapping
   end
 
   def save
@@ -37,7 +38,15 @@ class MappingsController < ApplicationController
   end
 
   def excluded_trackers_v2
+    if @project.trello_excluded_trackers.present? && !@project.trello_excluded_trackers_v2.present?
+      @project.trello_excluded_trackers_v2 = Marshal.dump(eval(@project.trello_excluded_trackers))
+      @project.save!
+    end
     Marshal.load(@project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
+  end
+
+  def list_mapping
+    Hash[Marshal.load(@project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
   end
 
   def setup_trello_api
