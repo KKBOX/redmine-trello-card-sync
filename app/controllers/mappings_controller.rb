@@ -25,8 +25,8 @@ class MappingsController < ApplicationController
     begin
       @project.trello_board_id = params[:project][:trello_board_id]
       @project.trello_excluded_trackers = params[:project][:trello_excluded_trackers].to_s
-      @project.trello_excluded_trackers_v2 = params[:project][:trello_excluded_trackers].to_s
-      @project.trello_list_mapping = params[:trello_list_mapping].to_s
+      @project.trello_excluded_trackers_v2 = params[:project][:trello_excluded_trackers].to_json
+      @project.trello_list_mapping = params[:trello_list_mapping].to_json
       @project.save!
       redirect_to mappings_url, notice: l(:trello_card_sync_settings_saved)
     rescue StandardError => e
@@ -42,16 +42,16 @@ class MappingsController < ApplicationController
 
   def excluded_trackers_v2
     if @project.trello_excluded_trackers.present? && !@project.trello_excluded_trackers_v2.present?
-      @project.trello_excluded_trackers_v2 = @project.trello_excluded_trackers
+      @project.trello_excluded_trackers_v2 = JSON.parse(@project.trello_excluded_trackers).to_json
       @project.save!
     end
-    eval(@project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
+    JSON.load(@project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
   end
 
   def list_mapping
     list_mapping = {}
     if @project.trello_list_mapping.present?
-      list_mapping = Hash[eval(@project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
+      list_mapping = Hash[JSON.load(@project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
     end
     list_mapping
   end

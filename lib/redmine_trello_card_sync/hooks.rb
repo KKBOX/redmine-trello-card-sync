@@ -48,7 +48,7 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
       raise "[Trello] This project doesn't enable sync module. Skip."
     end
 
-    trello_excluded_trackers = eval(project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
+    trello_excluded_trackers = JSON.load(project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
     if trello_excluded_trackers.include?(issue.tracker_id)
       raise "[Trello] The tracker of this issue doesn't enable sync. Skip."
     end
@@ -58,7 +58,7 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
     end
 
     board = Trello::Board.find(project.trello_board_id.strip)
-    list_mapping = Hash[eval(project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
+    list_mapping = Hash[JSON.load(project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
     list_id = list_mapping[issue.status.id]
 
     # ""
