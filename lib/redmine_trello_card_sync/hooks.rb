@@ -44,66 +44,56 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
     issue = context[:issue]
     project = issue.project
 
-    trello_excluded_trackers = JSON.parse(project.trello_excluded_trackers).reject { |id| id.empty? }.map { |id| id.to_i }
+    if !project.module_enabled?("trello_card_sync")
+      raise "[Trello] This project doesn't enable sync module. Skip."
+    end
+
+    trello_excluded_trackers = Marshal.load(project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
     if trello_excluded_trackers.include?(issue.tracker_id)
-      Rails.logger.info("[Trello] The tracker of this issue doesn't enable sync. Skip.")
-      return true
+      raise "[Trello] The tracker of this issue doesn't enable sync. Skip."
     end
 
-    unless project.trello_board_sync
-      Rails.logger.info("[Trello] This project doesn't enable sync. Skip.")
-      return true
-    end
-
-    unless project.trello_board_id.present?
-      Rails.logger.info("[Trello] This project doesn't provide a board ID. Skip.")
-      return true
+    if !project.trello_board_id.present?
+      raise "[Trello] This project doesn't provide a board ID. Skip."
     end
 
     board = Trello::Board.find(project.trello_board_id.strip)
+    list_mapping = Hash[Marshal.load(project.trello_list_mapping).map { |k, v| [k.to_i, v.to_s] }]
+    list_id = list_mapping[issue.status.id]
 
-    # find out the target list
-    target_list = nil
-
-    redmine_statuses = project.trello_mapping_redmine_statuses.split(/\n+/).map(&:strip).reject(&:blank?).uniq
-    trello_lists = project.trello_mapping_trello_lists.split(/\n+/).map(&:strip).reject(&:blank?)
-    status_map = status_mapping(board, redmine_statuses, trello_lists)
-    target_list = status_map[issue.status.name]
-
-    if target_list.nil?
-      Rails.logger.info('[Trello] No valid mapping. Skip.')
-      return true
+    # ""
+    if !list_id.present?
+      raise "[Trello] No mapping list was assigned for this status. Skip."
     end
-
-    Rails.logger.info("[Trello] Status mapping: '#{issue.status.name}' -> '#{target_list}'")
 
     # Sync ticket & card
     card_name = "##{issue.id} #{issue.subject}"
-    card = board.cards.find { |c| c.name == card_name }
+    # search card as title pattern: "#issue_no issue_title"
+    card = board.cards.find { |c| /^\##{issue.id}*\s.*/.match(c.name) }
 
-    if target_list == '//close'
+    if list_id == '//close'
       unless card.nil?
         Rails.logger.info("[Trello] Closing card: #{card_name}")
         card.close!
       end
     else
+      target_list = Trello::List.find(list_id)
       Rails.logger.info("[Trello] Processing card: #{card_name}")
-      list = board.lists.find { |l| l.name == target_list }
-      if list.nil?
-        Rails.logger.error("Invalid list: #{target_list}")
-        return false
-      end
+      Rails.logger.info("[Trello] Status mapping: '#{issue.status.name}' -> '#{target_list.name}'")
       if card.nil?
-        card = Trello::Card.create(name: card_name, list_id: list.id)
+        card = Trello::Card.create(name: card_name, list_id: target_list.id)
       else
-        card.move_to_list(list)
+        card.name = card_name
+        card.update!
+        card.move_to_list(target_list)
       end
     end
 
     # Sync ticket assignee, card member, due date & descritpion
+
+    # Don't process closed cards:
     if card.nil?
-      Rails.logger.info('[Trello] No such card. Skip.')
-      return true
+      raise "[Trello] No such card. Skip."
     end
 
     # sync due date
@@ -123,49 +113,19 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
 
     # sync assignee
     if issue.assigned_to.nil?
-      Rails.logger.info("[Trello] The Redmine issue doesn't have assignee. Skip.")
-      return true
+      raise "[Trello] The Redmine issue doesn't have assignee. Skip."
     else
       if issue.assigned_to.trello_username.blank?
-        Rails.logger.info("[Trello] User doesn't have Trello username. Skip.")
-        return true
+        raise "[Trello] User doesn't have Trello username. Skip."
       end
 
       trello_member = board.members.find { |b| b.username == issue.assigned_to.trello_username.strip }
 
       if trello_member.nil?
-        Rails.logger.info('[Trello] Wrong Trello username. Skip.')
-        return true
+        raise '[Trello] Wrong Trello username. Skip.'
       end
 
       card.add_member(trello_member) unless card.members.include? trello_member
     end
-  end
-
-  def status_mapping(board, redmine_statuses, trello_lists)
-    if redmine_statuses.size != trello_lists.size
-      raise("Unequal mapping number. R: #{redmine_statuses.size} T: #{trello_lists.size}")
-    end
-
-    # statuses checking
-    valid_statuses = IssueStatus.all.collect(&:name)
-    redmine_statuses.each do |rs|
-      unless valid_statuses.include?(rs)
-        raise("Found invalid status in plugin settings: #{rs}")
-      end
-    end if redmine_statuses.size > 0
-
-    # list checking (in default board)
-    valid_lists = board.lists.collect(&:name)
-    valid_lists << '//close'
-    trello_lists.each do |tl|
-      unless valid_lists.include?(tl)
-        raise("Found invalid list in plugin settings: #{tl}")
-      end
-    end if trello_lists.size > 0
-
-    # finally ensure that we can build a valid status map
-    status_map = Hash[redmine_statuses.zip(trello_lists)]
-    status_map
   end
 end

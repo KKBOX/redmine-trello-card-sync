@@ -22,7 +22,6 @@ class MappingsController < ApplicationController
   end
 
   def save
-    # binding.pry
     @project.trello_board_id = params[:project][:trello_board_id]
     @project.trello_excluded_trackers = params[:project][:trello_excluded_trackers].to_s
     @project.trello_excluded_trackers_v2 = Marshal.dump(params[:project][:trello_excluded_trackers])
