@@ -8,4 +8,6 @@ RedmineApp::Application.routes.draw do
       end
     end
   end
+
+  resources :trello_webhooks, only: [:index, :create]
 end
