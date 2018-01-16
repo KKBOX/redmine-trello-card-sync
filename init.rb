@@ -19,7 +19,7 @@ Redmine::Plugin.register :redmine_trello_card_sync do
   author_url 'https://ghostsinthelab.org/'
   requires_redmine version_or_higher: '2.3.2'
 
-  settings default: { public_key: '', member_token: '' }, partial: 'settings/trello_sync_settings'
+  settings default: { public_key: '', member_token: '', api_secret: '' }, partial: 'settings/trello_sync_settings'
 
   project_module :trello_card_sync do
     permission :view_mappings,       mappings: [:index]

@@ -1,5 +1,6 @@
 <h1>Trello Card Sync Settings</h1>
 <hr/>
+<p>Get essential API credentials (public key, member token, secret) from <a href="https://trello.com/app-key">https://trello.com/app-key</a></p>
 <p>
   <label for="settings_public_key">Trello API public key</label>
   <input type="text" id="settings_public_key" size=80 value="<%= settings['public_key'] %>" name="settings[public_key]" />
@@ -7,4 +8,8 @@
 <p>
   <label for="settings_member_token">Trello API member token</label>
   <input type="text" id="settings_member_token" size=80 value="<%= settings['member_token'] %>" name="settings[member_token]" />
+</p>
+<p>
+  <label for="settings_api_secret">Trello API secret</label>
+  <input type="text" id="settings_api_secret" size=80 value="<%= settings['api_secret'] %>" name="settings[api_secret]" />
 </p>
