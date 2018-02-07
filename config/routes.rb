@@ -9,5 +9,6 @@ RedmineApp::Application.routes.draw do
     end
   end
 
-  resources :trello_webhooks, only: [:index, :create]
+  get  :trello_webhooks, to: 'trello_webhooks#index'
+  post :trello_webhooks, to: 'trello_webhooks#update_redmine_issue'
 end
