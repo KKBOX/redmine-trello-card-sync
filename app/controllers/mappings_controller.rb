@@ -49,7 +49,6 @@ class MappingsController < ApplicationController
         callback_url = Setting.plugin_redmine_trello_card_sync['webhooks_url']
         id_model = @project.trello_board_id
         begin
-          binding.pry
           Trello::Webhook.create(description: description, callback_url: callback_url, id_model: id_model)
         rescue StandardError => e
           logger.error("[Trello] Oops! Failed to register the webhook: #{e.to_s}")
