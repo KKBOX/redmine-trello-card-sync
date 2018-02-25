@@ -12,4 +12,8 @@
 <p>
   <label for="settings_api_secret">Trello API secret</label>
   <input type="text" id="settings_api_secret" size=80 value="<%= settings['api_secret'] %>" name="settings[api_secret]" />
+  <br/>
+  <%= t(:trello_card_sync_settings_api_secret_description_html) %>
 </p>
+
+<%= render 'webhook_settings', locals: { settings: @settings } %>

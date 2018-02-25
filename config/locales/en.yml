@@ -17,3 +17,7 @@ en:
   trello_card_sync_index_board_id_description: Target Trello board.
   trello_card_sync_index_mappings_description: Set your Trello list mapping for each Redmine status, leave blank to disable the status to sync with Trello.
   trello_card_sync_settings_saved: Settings are saved.
+  trello_card_sync_settings_api_secret_description_html: API secret is required if you need bi-directional sync, otherwise this plugin is doing one-way sync <em>(from Redmine to Trello)</em> by default.
+  trello_card_sync_settings_webhooks_url_description_html: A public accessible Webhooks callback URL for Trello Webhooks like <em>https://YOUR_REDMINE_PUBLIC_URL/trello_webhooks.json</em>, you may want to white-list connections from <a href="https://developers.trello.com/v1.0/page/webhooks#section-webhook-sources">Webhook Sources</a>.
+  trello_card_sync_index_enable_bidirectional_sync_header: Bi-directional Sync
+  trello_card_sync_index_enable_bidirectional_sync_description: Enable bidirectional sync?

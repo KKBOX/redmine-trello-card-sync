@@ -1,6 +1,6 @@
 require 'trello'
 
-# TrelloCardSyncHook - Sync an issue to a Trello card
+# TrelloCardSyncHook - Sync Redmine to Trello
 class TrelloCardSyncHook < Redmine::Hook::Listener
   def initialize
     @plugin_ready = false

@@ -20,11 +20,8 @@ module TrelloWebhooksHelper
 
     def signature_base64_digest(data)
       # ref: https://developers.trello.com/v1.0/page/webhooks#section-webhook-signatures
-      Base64.encode64(OpenSSL::HMAC.digest('sha1', trello_api_secret, data))
-    end
-
-    def trello_api_secret
       trello_api_secret = Setting.plugin_redmine_trello_card_sync['api_secret'].present? ? Setting.plugin_redmine_trello_card_sync['api_secret'].strip : ''
+      Base64.encode64(OpenSSL::HMAC.digest('sha1', trello_api_secret, data))
     end
   end
 end
