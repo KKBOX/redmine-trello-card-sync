@@ -51,7 +51,12 @@ class MappingsController < ApplicationController
         begin
           Trello::Webhook.create(description: description, callback_url: callback_url, id_model: id_model)
         rescue StandardError => e
-          logger.error("[Trello] Oops! Failed to register the webhook: #{e.to_s}")
+          error = "[Trello] Oops! Failed to register the webhook: #{e.to_s}"
+          logger.error(error)
+          # revert trello_enable_bidirectional_sync
+          @project.trello_enable_bidirectional_sync = false
+          @project.save!
+          flash[:error] = error
         end
       else
         logger.info("[Trello] Webhook has existed for board #{trello_board_info}")
