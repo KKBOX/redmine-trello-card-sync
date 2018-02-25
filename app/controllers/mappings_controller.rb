@@ -39,6 +39,7 @@ class MappingsController < ApplicationController
       trello_board_info = "'#{Trello::Board.find( @project.trello_board_id ).name}' (#{@project.trello_board_id})"
     end
 
+    # enable
     if @project.trello_enable_bidirectional_sync
       logger.info('[Trello] Bidirectional sync is enabled')
 
@@ -61,6 +62,7 @@ class MappingsController < ApplicationController
       else
         logger.info("[Trello] Webhook has existed for board #{trello_board_info}")
       end
+    # disable
     else
       logger.info('[Trello] Bidirectional sync is disabled. Check if we have to delete the related Trello webhook.')
 

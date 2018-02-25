@@ -7,4 +7,10 @@
   <br/>
   <%= t(:trello_card_sync_settings_webhooks_url_description_html) %>
 </p>
+<h2>Registered Webhooks</h2>
+  <ul>
+    <% TrelloWebhooksHelper.list_webhooks.each do |webhook| %>
+    <li><em><%= webhook['id'] %></em> - <%= webhook['description'] %> -> <%= webhook['callbackURL'] %></li>
+    <%end %>
+  </ul>
 <% end %>
