@@ -1,0 +1,16 @@
+<% if Setting.plugin_redmine_trello_card_sync['api_secret'].present? %>
+<h2>Trello Webhook Settings</h2>
+<hr/>
+<p>
+  <label for="settings_webhooks_url">Trello Webhooks Endpoint URL</label>
+  <input type="text" id="settings_webhooks_url" size=80 value="<%= @settings['webhooks_url'] %>" name="settings[webhooks_url]" />
+  <br/>
+  <%= t(:trello_card_sync_settings_webhooks_url_description_html) %>
+</p>
+<h2>Registered Webhooks</h2>
+  <ul>
+    <% TrelloWebhooksHelper.list_webhooks.each do |webhook| %>
+    <li><em><%= webhook['id'] %></em> - <%= webhook['description'] %> -> <%= webhook['callbackURL'] %></li>
+    <%end %>
+  </ul>
+<% end %>

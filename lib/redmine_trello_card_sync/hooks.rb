@@ -1,6 +1,6 @@
 require 'trello'
 
-# TrelloCardSyncHook - Sync an issue to a Trello card
+# TrelloCardSyncHook - Sync Redmine to Trello
 class TrelloCardSyncHook < Redmine::Hook::Listener
   def initialize
     @plugin_ready = false
@@ -102,13 +102,17 @@ class TrelloCardSyncHook < Redmine::Hook::Listener
       card.update!
     end
 
-    # sync description
+    # add redmine link as comment
     if request
       issue_url = "#{request.protocol}#{request.host_with_port}/issues/#{issue.id}"
-      card.desc = "#{issue.description}\n\n**🔗 Redmine Issue:** #{issue_url}".strip
-    else
-      card.desc = "#{issue.description}".strip
+      comment_text = "**🔗 Redmine Issue:** #{issue_url}".strip
+      unless card.comments.find { |comment| comment.text == comment_text }
+        card.add_comment( comment_text )
+      end
     end
+
+    # sync description
+    card.desc = "#{issue.description}".strip
     card.update!
 
     # sync assignee

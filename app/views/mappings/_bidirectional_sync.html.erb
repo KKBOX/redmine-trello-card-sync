@@ -1,0 +1,6 @@
+<% if Setting.plugin_redmine_trello_card_sync['api_secret'].present? && Setting.plugin_redmine_trello_card_sync['webhooks_url'].present? %>
+<section>
+  <h3><%= l(:trello_card_sync_index_enable_bidirectional_sync_header) %></h3>
+  <%= check_box(:project, :trello_enable_bidirectional_sync, {}, "1", "0")  %><span class="description"><%= l(:trello_card_sync_index_enable_bidirectional_sync_description) %></span>
+</section>
+<% end %>

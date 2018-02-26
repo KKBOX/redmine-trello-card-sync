@@ -1,5 +1,6 @@
 require 'trello'
 
+# Mappings maintenance
 class MappingsController < ApplicationController
   unloadable
 
@@ -22,16 +23,68 @@ class MappingsController < ApplicationController
   end
 
   def save
-    begin
-      @project.trello_board_id = params[:project][:trello_board_id]
-      @project.trello_excluded_trackers = params[:project][:trello_excluded_trackers].to_s
-      @project.trello_excluded_trackers_v2 = params[:project][:trello_excluded_trackers].to_json
-      @project.trello_list_mapping = params[:trello_list_mapping].to_json
-      @project.save!
-      redirect_to mappings_url, notice: l(:trello_card_sync_settings_saved)
-    rescue StandardError => e
-      redirect_to mappings_url, alert: e.to_s
+    @project.trello_board_id = params[:project][:trello_board_id]
+    @project.trello_excluded_trackers = params[:project][:trello_excluded_trackers].to_s
+    @project.trello_excluded_trackers_v2 = params[:project][:trello_excluded_trackers].to_json
+    @project.trello_list_mapping = params[:trello_list_mapping].to_json
+    @project.trello_enable_bidirectional_sync = params[:project][:trello_enable_bidirectional_sync].to_i
+    @project.save!
+
+    # Check & create webhooks
+    registered_webhook = nil
+    trello_board_info = ''
+    if @project.trello_board_id.present?
+      token = Trello::Token.find( Setting.plugin_redmine_trello_card_sync['member_token'] )
+      registered_webhook = token.webhooks.find { |whk| whk['idModel'] == @project.trello_board_id }
+      trello_board_info = "'#{Trello::Board.find( @project.trello_board_id ).name}' (#{@project.trello_board_id})"
     end
+
+    # enable
+    if @project.trello_enable_bidirectional_sync
+      logger.info('[Trello] Bidirectional sync is enabled')
+
+      if registered_webhook.nil?
+        # create webhook
+        logger.info("[Trello] Creating webhook for #{trello_board_info}")
+        description = "Webhook for #{trello_board_info}"
+        callback_url = Setting.plugin_redmine_trello_card_sync['webhooks_url']
+        id_model = @project.trello_board_id
+        begin
+          Trello::Webhook.create(description: description, callback_url: callback_url, id_model: id_model)
+        rescue StandardError => e
+          error = "[Trello] Oops! Failed to register the webhook: #{e.to_s}"
+          logger.error(error)
+          # revert trello_enable_bidirectional_sync
+          @project.trello_enable_bidirectional_sync = false
+          @project.save!
+          flash[:error] = error
+        end
+      else
+        logger.info("[Trello] Webhook has existed for board #{trello_board_info}")
+      end
+    # disable
+    else
+      logger.info('[Trello] Bidirectional sync is disabled. Check if we have to delete the related Trello webhook.')
+
+      #   * Check if there are no more Redmine projects that need bidirectional sync to the Trello board
+      #   * If yes, remove the registered webhook
+      if registered_webhook
+        if Project.all.find { |p| p.trello_board_id == @project.trello_board_id && p.trello_enable_bidirectional_sync }
+          logger.info('[Trello] There is some project that is keep using bidirectional sync, do not un-register webhook.')
+        else
+          webhook = Trello::Webhook.find( registered_webhook['id'] )
+          webhook.delete
+          logger.info('[Trello] Webhook has been unregistered.')
+        end
+      else
+        logger.info('[Trello] There is no project that has registered a webhook.')
+      end
+    end
+
+    redirect_to mappings_url, notice: l(:trello_card_sync_settings_saved)
+  rescue StandardError => e
+    logger.error(e.to_s)
+    redirect_to mappings_url, alert: e.to_s
   end
 
   private
