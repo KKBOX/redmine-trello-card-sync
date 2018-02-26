@@ -4,6 +4,7 @@ require 'base64'
 # Trello webhooks (Sync from Trello to Redmine)
 class TrelloWebhooksController < ApplicationController
   unloadable
+  skip_before_action :check_if_login_required
   skip_before_action :authenticate
   skip_before_action :verify_authenticity_token
 
