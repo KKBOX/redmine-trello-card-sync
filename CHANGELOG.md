@@ -1,4 +1,8 @@
 
+# 1.1.0
+
+* [experimental] First release which supports bi-directional sync.
+
 # 1.0.0 -> 1.0.1
 
 * Fix DB migrations for default value assignment in MySQL text column
