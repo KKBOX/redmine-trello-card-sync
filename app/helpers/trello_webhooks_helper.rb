@@ -31,7 +31,16 @@ module TrelloWebhooksHelper
       config.member_token = Setting.plugin_redmine_trello_card_sync['member_token'].present? ? Setting.plugin_redmine_trello_card_sync['member_token'].strip : ''
     end
 
-    token = Trello::Token.find( Setting.plugin_redmine_trello_card_sync['member_token'] )
-    token.webhooks
+    begin
+      token = Trello::Token.find( Setting.plugin_redmine_trello_card_sync['member_token'] )
+    rescue
+      token = nil
+    end
+
+    if token.nil?
+      []
+    else
+      token.webhooks
+    end
   end
 end
