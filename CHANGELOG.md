@@ -1,4 +1,8 @@
 
+# 1.1.1
+
+* Fix Trello Webhooks listing method
+
 # 1.1.0
 
 * [experimental] First release which supports bi-directional sync.
