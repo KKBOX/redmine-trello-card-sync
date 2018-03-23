@@ -90,10 +90,16 @@ class MappingsController < ApplicationController
   private
 
   def excluded_trackers
-    JSON.parse(@project.trello_excluded_trackers).reject(&:empty?).map(&:to_i)
+    if @project.trello_excluded_trackers.nil?
+      # in case someone didn't run migration to give @project.trello_excluded_trackers a default empty array value...
+      []
+    else
+      JSON.parse(@project.trello_excluded_trackers).reject(&:empty?).map(&:to_i)
+    end
   end
 
   def excluded_trackers_v2
+    # convert excluded_trackers v1 to v2
     if @project.trello_excluded_trackers.present? && !@project.trello_excluded_trackers_v2.present?
       @project.trello_excluded_trackers_v2 = JSON.parse(@project.trello_excluded_trackers).to_json
       @project.save!
