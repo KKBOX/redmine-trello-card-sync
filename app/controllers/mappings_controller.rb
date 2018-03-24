@@ -99,12 +99,18 @@ class MappingsController < ApplicationController
   end
 
   def excluded_trackers_v2
-    # convert excluded_trackers v1 to v2
+    # convert excluded_trackers v1 to v2 if we have nothing but v1
     if @project.trello_excluded_trackers.present? && !@project.trello_excluded_trackers_v2.present?
       @project.trello_excluded_trackers_v2 = JSON.parse(@project.trello_excluded_trackers).to_json
       @project.save!
     end
-    JSON.load(@project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
+
+    # if we have neither v1 nor v2...
+    if @project.trello_excluded_trackers_v2.nil?
+      []
+    else
+      JSON.load(@project.trello_excluded_trackers_v2).reject(&:empty?).map(&:to_i)
+    end
   end
 
   def list_mapping
