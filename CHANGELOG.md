@@ -1,3 +1,7 @@
+# 1.1.3
+
+* Some minor fixes
+
 # 1.1.2
 
 * Some minor fixes
