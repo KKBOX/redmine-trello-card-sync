@@ -1,4 +1,4 @@
-# Sync Redmine ticket to Trello card
+# Sync Redmine ticket to Trello card (Moved to [here](https://github.com/hiroshiyui/redmine-trello-card-sync))
 
 ## Setup
 
