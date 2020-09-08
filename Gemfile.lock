@@ -1,25 +1,25 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.2.6)
-      activesupport (= 4.2.6)
-      builder (~> 3.1)
-    activesupport (4.2.6)
-      i18n (~> 0.7)
-      json (~> 1.7, >= 1.7.7)
+    activemodel (6.0.3.2)
+      activesupport (= 6.0.3.2)
+    activesupport (6.0.3.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
       minitest (~> 5.1)
-      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+      zeitwerk (~> 2.2, >= 2.2.2)
     addressable (2.4.0)
-    builder (3.2.2)
+    concurrent-ruby (1.1.7)
     domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    i18n (0.7.0)
-    json (1.8.3)
+    i18n (1.8.5)
+      concurrent-ruby (~> 1.0)
+    json (2.3.1)
     mime-types (2.99.2)
-    minitest (5.9.0)
+    minitest (5.14.2)
     netrc (0.11.0)
     oauth (0.4.7)
     rest-client (1.8.0)
@@ -32,12 +32,13 @@ GEM
       json
       oauth (~> 0.4.5)
       rest-client (~> 1.8.0)
-    thread_safe (0.3.5)
-    tzinfo (1.2.2)
+    thread_safe (0.3.6)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.2)
+    zeitwerk (2.4.0)
 
 PLATFORMS
   ruby
